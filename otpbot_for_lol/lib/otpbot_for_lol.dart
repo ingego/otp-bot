@@ -21,8 +21,8 @@ teledart
     .listen((message) => message.reply('Приветствую, Призыватель! Я создан , что бы помогат выбирать OTP персонажа для LOL, исходя из твоей роли, эло и персонажей, на которых ты играешь! Введи свой ник...'));
 teledart 
   .onMessage()
-  .listen((event){String? usermessage=(event.text ?? "Пустое место? Рили?!");event.reply("Ну $usermessage и пидорас, конечно!!");})
-//  .listen((event){String? usermessage=(event.text ?? "Пустое место? Рили?!");})
+  .listen((event){String? usermessage=(event.text ?? '');event.reply("Ну $usermessage и пидорас, конечно!!");})
+
 
   
 ;}
