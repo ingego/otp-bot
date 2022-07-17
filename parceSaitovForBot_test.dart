@@ -3,56 +3,57 @@ import 'dart:io';
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
+
+import 'package:prostoproekti_testing_tests/parsers.dart';
+import 'package:prostoproekti_testing_tests/scripting.dart';
 import 'package:test/test.dart';
 
+
 void main() {
-  String? url;
-  Response? resp;
-  
+String? url;
+Response? resp;
+ParserOfSummonerData summoner = ParserOfSummonerData();
+FavChampsFromOPGG champs = FavChampsFromOPGG();
 
   group("parserOfSummonerData", (){
-    setUp(() async {
-      url = r"https://www.leagueofgraphs.com/summoner/ru/CopyBara";
-      resp = await Dio().get(url!);
+    setUp(() async {await summoner.envSetUp();
+    
       });
 
       group("Unit Test", (){
-
         test('setUp', (){
-          expect(url, url!);
-          expect(resp, resp!);
+
+          expect(summoner.url, summoner.url!);
+          expect(summoner.resp, summoner.resp!);
         });
 
         test("Parse leagueTier", (){
-          BeautifulSoup sp = BeautifulSoup(resp!.data);
-          var tierSQ = sp.find("div", class_: "leagueTier")?.getText();
+          var tierSQ = summoner.leagueTier();
                 Logger().w(tierSQ);
               });
         test("Parse positionInGame", (){
-          BeautifulSoup sp = BeautifulSoup(resp!.data);
-          var linePosition = sp.find("div", id: "profileRoles")?.
-          find("div", class_: "tabs-content")?.find("div", class_:"content active")?.find("div", class_: "txt name")?.getText();
+          var linePosition = summoner.positionInGame();
+
             Logger().w(linePosition);
         });
       });
  });
   group("favChampsFromOPGG", (){
-    setUp(() async {
-      url = r"https://ru.op.gg/summoners/ru/CopyBara";
-      resp = await Dio().get(url!);
+    setUp(() async {await champs.envSetUp();
+
       });
       group("Unit Test", (){
 
          test('setUp', (){
-          expect(url, url!);
-          expect(resp, resp!);
+          expect(champs.url, champs.url!);
+          expect(champs.resp, champs.resp!);
         });
 
          test("Parse favChamps", (){
-          BeautifulSoup sp = BeautifulSoup(resp!.data);
-          var champList = sp.find("div", class_: "css-e9xk5o e1g7spwk3")?.findAll("div", class_: "name");
+          var champList = champs.favChamps();
               for (var value in champList!){
-                Logger().w((value).getText());
+                Logger().w((value));
+
                 }
                 
               });
